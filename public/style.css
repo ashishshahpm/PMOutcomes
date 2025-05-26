@@ -1,0 +1,99 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+    padding: 20px; /* Added padding for small screens */
+    box-sizing: border-box; /* Ensures padding doesn't add to width/height */
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px; /* Max width for larger screens */
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#auth-container button {
+    background-color: #4285F4; /* Google Blue */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block; /* Make button take full available width initially */
+    width: 100%; /* Make button take full available width */
+    margin: 10px 0; /* Add some margin */
+    box-sizing: border-box;
+}
+
+#auth-container button:hover {
+    background-color: #357ae8;
+}
+
+#user-info {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#user-info img {
+    display: block;
+    margin: 0 auto 10px auto; /* Center the image */
+    width: 60px; /* Slightly larger for better visibility */
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
+
+#user-info p {
+    margin: 8px 0;
+    font-size: 1em;
+    word-wrap: break-word; /* Ensure long emails don't break layout */
+}
+
+#user-info span {
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+        margin: 10px; /* Add margin on smaller screens */
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    #auth-container button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+
+    #user-info p {
+        font-size: 0.9em;
+    }
+
+    #user-info img {
+        width: 50px;
+        height: 50px;
+    }
+}

@@ -1,89 +1,116 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Google Sign-In</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/11.8.1/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/11.8.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/11.8.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/11.8.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/11.8.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/11.8.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/11.8.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/11.8.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/11.8.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/11.8.1/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <div class="container">
+        <h1>Welcome to My App</h1>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+        <div id="auth-container">
+            <button id="google-signin-button">Sign in with Google</button>
+            
+            <div id="user-info" style="display: none;">
+                <img id="user-photo" src="" alt="User Photo" style="width: 50px; height: 50px; border-radius: 50%;">
+                <p>Hello, <span id="user-name"></span>!</p>
+                <p>Email: <span id="user-email"></span></p>
+                <button id="signout-button">Sign Out</button>
+            </div>
+        </div>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // TODO: Replace with your project's actual Firebase SDK configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyC6ISm3RSD_fG89eMmhZSxpZ_nHFJnV5bo",
+          authDomain: "pmoutcomes-sandbox-447730.firebaseapp.com",
+          projectId: "pmoutcomes-sandbox-447730",
+          storageBucket: "pmoutcomes-sandbox-447730.firebasestorage.app",
+          messagingSenderId: "947290591379",
+          appId: "1:947290591379:web:237c637ea3bb55d458bd66",
+          measurementId: "G-5T05KRMJD6"
+        };
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(); // Get the auth instance
+
+        // Get DOM elements
+        const signInButton = document.getElementById('google-signin-button');
+        const signOutButton = document.getElementById('signout-button');
+        const authContainer = document.getElementById('auth-container');
+        const userInfoDiv = document.getElementById('user-info');
+        const userNameSpan = document.getElementById('user-name');
+        const userEmailSpan = document.getElementById('user-email');
+        const userPhotoImg = document.getElementById('user-photo');
+
+        // Sign in with Google
+        signInButton.addEventListener('click', () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = result.credential;
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    console.log("User signed in:", user);
+                    // You don't need to manually update UI here, onAuthStateChanged will handle it
+                })
+                .catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    const credential = error.credential;
+                    console.error("Sign-in error:", errorCode, errorMessage);
+                    alert("Error signing in: " + errorMessage);
+                });
+        });
+
+        // Sign out
+        signOutButton.addEventListener('click', () => {
+            auth.signOut()
+                .then(() => {
+                    console.log("User signed out");
+                    // You don't need to manually update UI here, onAuthStateChanged will handle it
+                })
+                .catch((error) => {
+                    console.error("Sign-out error:", error);
+                    alert("Error signing out: " + error.message);
+                });
+        });
+
+        // Listen for authentication state changes
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in
+                userInfoDiv.style.display = 'block';
+                signInButton.style.display = 'none';
+
+                userNameSpan.textContent = user.displayName;
+                userEmailSpan.textContent = user.email;
+                if (user.photoURL) {
+                    userPhotoImg.src = user.photoURL;
+                } else {
+                    userPhotoImg.src = ""; // or a default placeholder image
+                    userPhotoImg.style.display = 'none'; // Hide if no photo
+                }
+            } else {
+                // User is signed out
+                userInfoDiv.style.display = 'none';
+                signInButton.style.display = 'block';
+                userPhotoImg.style.display = 'block'; // Reset display if it was hidden
+            }
+        });
     </script>
-  </body>
+</body>
 </html>
